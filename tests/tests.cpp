@@ -105,6 +105,35 @@ TEST(astarwalker, walk_blocker) {
     #endif
 }
 
+TEST(astarwalker, walk_maze) {
+    const size_t w = 6;
+    const size_t h = w;
+
+    Matrix2D<TileType> matrix(h, w);
+    matrix.set(1, 0, TileType_SOLID);
+    matrix.set(1, 1, TileType_SOLID);
+    matrix.set(1, 2, TileType_SOLID);
+    matrix.set(1, 4, TileType_SOLID);
+    matrix.set(1, 5, TileType_SOLID);
+
+    for (int i = 1; i < w; ++i)
+    matrix.set(3, i, TileType_SOLID);
+
+    AStarWalker<TileType> walker(matrix);
+
+    std::vector<Point2D> reconVec;
+    int numVisited = 0;
+
+    ASSERT_TRUE(walker.run(Point2D(0, 0), Point2D(h - 1, w - 2), reconVec, numVisited));
+
+    ASSERT_TRUE(reconVec.size() <= 15);
+    ASSERT_TRUE(numVisited      <= 20);
+
+    #ifdef PRINT_WALK
+    walker.printDistances(reconVec);
+    #endif
+}
+
 int main() {
     RTest::runAllTests();
     return 0;
