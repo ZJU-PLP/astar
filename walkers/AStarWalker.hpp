@@ -72,7 +72,7 @@ public:
 
             } else {
                 std::cout << "Nothing to pop" << std::endl;
-                break;
+                return false;
             }
         }
 
