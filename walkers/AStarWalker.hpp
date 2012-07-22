@@ -279,7 +279,7 @@ private:
     }
 
     bool isWalkable(const Point2D& p) const {
-        return m_matrix.isEmpty(p);
+        return elementIsWalkable(m_matrix.get(p));
     }
 
     bool isVisited(const Point2D& p) {

@@ -26,7 +26,9 @@
 enum TileType {
     TileType_OUTSIDE = -1,
     TileType_NONE,
-    TileType_SOLID
+    TileType_GRASS,
+    TileType_FOREST,
+    TileType_WATER
 };
 
 template <>
@@ -38,6 +40,18 @@ public:
 
     TileType outsider() {
         return TileType_OUTSIDE;
+    }
+
+    TileType grass() {
+        return TileType_GRASS;
+    }
+
+    TileType forest() {
+        return TileType_FOREST;
+    }
+
+    TileType water() {
+        return TileType_WATER;
     }
 };
 

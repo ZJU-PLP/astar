@@ -27,11 +27,28 @@ template <typename T>
 class Matrix2D {
 public:
     Matrix2D(int height, int width) :
-        m_height(height),
-        m_width(width),
+        m_dim(height, width),
         m_matrix(NULL)
     {
-        m_matrix = new T[m_height * m_width];
+        m_matrix = new T[m_dim.height * m_dim.width];
+
+        reset();
+    }
+
+    Matrix2D() :
+        m_dim(),
+        m_matrix(NULL)
+    {
+    }
+
+    void resize(const Dim2D& dim) {
+        m_dim = dim;
+
+        if (m_matrix != NULL) {
+            delete [] m_matrix;
+        }
+
+        m_matrix = new T[m_dim.height * m_dim.width];
 
         reset();
     }
@@ -41,11 +58,11 @@ public:
     }
 
     int getHeight() const {
-        return m_height;
+        return m_dim.height;
     }
 
     int getWidth() const {
-        return m_width;
+        return m_dim.width;
     }
 
     T get(const Point2D& p) const {
@@ -63,7 +80,7 @@ public:
     }
 
     void reset() {
-        for (int i = 0; i < (m_width * m_height); ++i) {
+        for (int i = 0; i < (m_dim.width * m_dim.height); ++i) {
              m_matrix[i] = Element<T>().empty();
         }
     }
@@ -74,7 +91,7 @@ public:
 
     bool withinBounds(const Point2D& p) const {
         if (0 <= p.x && 0 <= p.y) {
-            if (p.x < m_width && p.y < m_height) {
+            if (p.x < m_dim.width && p.y < m_dim.height) {
                 return true;
             }
         }
@@ -84,11 +101,10 @@ public:
 
 private:
     int coord2index(const Point2D& p) const {
-        return p.y * m_width + p.x;
+        return p.y * m_dim.width + p.x;
     }
 
-    int        m_height;
-    int        m_width;
+    Dim2D      m_dim;
     T*         m_matrix;
 };
 

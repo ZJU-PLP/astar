@@ -18,57 +18,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef MATRIX_ELEMENTS_HPP
-#define MATRIX_ELEMENTS_HPP
+#ifndef COMMON_DIM2D
+#define COMMON_DIM2D
 
-template <typename T>
-class Element {
+#include <iostream>
+
+struct Dim2D {
 public:
+    Dim2D(int height, int width) :
+        width(width),
+        height(height)
+    {
+    }
 
-    virtual T grass() = 0;
+    Dim2D() :
+        width(0),
+        height(0)
+    {
+    }
 
-    virtual T forest() = 0;
+    bool operator!=(const Dim2D& other) const {
+        return width != other.width || height != other.height;
+    }
 
-    virtual T water() = 0;
+    bool operator==(const Dim2D& other) const {
+        return width == other.width && height == other.height;
+    }
 
-    virtual T empty() = 0;
-
-    virtual T outsider() = 0;
+    int width;
+    int height;
 };
 
-template <typename T>
-class AsciiToElement {
-public:
-    T execute(char ch) {
-        switch (ch) {
-            case 'G':
-                return Element<T>().grass();
-
-            case 'F':
-                return Element<T>().forest();
-
-            case 'W':
-                return Element<T>().water();
-
-            case '.':
-            default:
-                return Element<T>().empty();
-
-        }
-    }
-};
-
-template <typename T>
-bool elementIsWalkable(const T& t) {
-    if (t == Element<T>().grass()) {
-        return true;
-    }
-
-    if (t == Element<T>().empty()) {
-        return true;
-    }
-
-    return false;
+inline std::ostream& operator<<(std::ostream& os, const Dim2D& p) {
+    os << "height=" << p.height << " width=" << p.width;
+    return os;
 }
 
-#endif /* MATRIX_ELEMENTS_HPP */
+inline bool operator<(const Dim2D& a, const Dim2D& b) {
+    if (a.width != b.width) {
+        return a.width < b.width;
+    } else {
+        return a.height < b.height;
+    }
+}
+
+#endif /* COMMON_DIM2D */

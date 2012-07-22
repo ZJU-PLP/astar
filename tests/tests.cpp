@@ -23,6 +23,7 @@
 #include <rtest/rtest.hpp>
 
 #include <tiles/TileType.hpp>
+#include <tiles/TileReader.hpp>
 
 #include <matrix/Matrix2D.hpp>
 
@@ -38,10 +39,10 @@ TEST(matrixtest, set_and_get) {
         matrix.get(Point2D(3,2))
     );
 
-    matrix.set(Point2D(3, 2), TileType_SOLID);
+    matrix.set(Point2D(3, 2), TileType_FOREST);
 
     ASSERT_EQ(
-        TileType_SOLID,
+        TileType_FOREST,
         matrix.get(Point2D(3,2))
     );
 
@@ -58,7 +59,7 @@ TEST(matrixtest, set_and_get) {
 
 TEST(astarwalker, walk_noblock) {
     Matrix2D<TileType> matrix(4, 4);
-    matrix.set(Point2D(2, 2), TileType_SOLID);
+    matrix.set(Point2D(2, 2), TileType_FOREST);
 
     AStarWalker<TileType> walker(matrix);
 
@@ -82,12 +83,12 @@ TEST(astarwalker, walk_blocker) {
     Matrix2D<TileType> matrix(h, w);
 
     for (int x = 2; x <= w - 4; ++x) {
-        matrix.set(Point2D(h / 2 - 1, x), TileType_SOLID);
+        matrix.set(Point2D(h / 2 - 1, x), TileType_FOREST);
     }
 
     for (int y = h/2 - 2; y <= h/2 - 1; ++y) {
-        matrix.set(Point2D(y, 2), TileType_SOLID);
-        matrix.set(Point2D(y, w - 3), TileType_SOLID);
+        matrix.set(Point2D(y, 2), TileType_FOREST);
+        matrix.set(Point2D(y, w - 3), TileType_FOREST);
     }
 
     AStarWalker<TileType> walker(matrix);
@@ -112,7 +113,7 @@ TEST(astarwalker, walk_blocker_fail) {
     Matrix2D<TileType> matrix(h, w);
 
     for (int x = 0; x <= w - 1; ++x) {
-        matrix.set(Point2D(h / 2 - 1, x), TileType_SOLID);
+        matrix.set(Point2D(h / 2 - 1, x), TileType_FOREST);
     }
 
     AStarWalker<TileType> walker(matrix);
@@ -128,14 +129,14 @@ TEST(astarwalker, walk_maze) {
     const size_t h = w;
 
     Matrix2D<TileType> matrix(h, w);
-    matrix.set(Point2D(1, 0), TileType_SOLID);
-    matrix.set(Point2D(1, 1), TileType_SOLID);
-    matrix.set(Point2D(1, 2), TileType_SOLID);
-    matrix.set(Point2D(1, 4), TileType_SOLID);
-    matrix.set(Point2D(1, 5), TileType_SOLID);
+    matrix.set(Point2D(1, 0), TileType_FOREST);
+    matrix.set(Point2D(1, 1), TileType_FOREST);
+    matrix.set(Point2D(1, 2), TileType_FOREST);
+    matrix.set(Point2D(1, 4), TileType_FOREST);
+    matrix.set(Point2D(1, 5), TileType_FOREST);
 
     for (int i = 1; i < w; ++i)
-        matrix.set(Point2D(3, i), TileType_SOLID);
+        matrix.set(Point2D(3, i), TileType_FOREST);
 
     AStarWalker<TileType> walker(matrix);
 
@@ -150,6 +151,27 @@ TEST(astarwalker, walk_maze) {
     #ifdef PRINT_WALK
     walker.printDistances(reconVec);
     #endif
+}
+
+TEST(tilereader, load_small) {
+    boost::filesystem::path path("tests/data/matrix_small");
+    ASSERT_TRUE(boost::filesystem::exists(path));
+
+    Matrix2D<TileType> matrix;
+    TileReader<TileType> reader;
+
+    ASSERT_TRUE(reader.load(path, matrix));
+
+    ASSERT_EQ(3, matrix.getWidth());
+    ASSERT_EQ(2, matrix.getHeight());
+
+    ASSERT_EQ(TileType_FOREST, matrix.get(Point2D(0, 0)));
+    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(0, 1)));
+    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(0, 2)));
+
+    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(1, 0)));
+    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 1)));
+    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 2)));
 }
 
 int main() {
