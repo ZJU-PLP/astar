@@ -21,6 +21,8 @@
 #ifndef MATRIX_MATRIX2D_HPP
 #define MATRIX_MATRIX2D_HPP
 
+#include <common/Point2D.hpp>
+
 template <typename T>
 class Matrix2D {
 public:
@@ -46,17 +48,17 @@ public:
         return m_width;
     }
 
-    T get(int y, int x) const {
-        if (withinBounds(y, x)) {
-            return m_matrix[coord2index(y, x)];
+    T get(const Point2D& p) const {
+        if (withinBounds(p)) {
+            return m_matrix[coord2index(p)];
         }
 
         return Element<T>().outsider();
     }
 
-    void set(int y, int x, T type) {
-        if (withinBounds(y, x)) {
-            m_matrix[coord2index(y, x)] = type;
+    void set(const Point2D& p, T type) {
+        if (withinBounds(p)) {
+            m_matrix[coord2index(p)] = type;
         }
     }
 
@@ -66,13 +68,13 @@ public:
         }
     }
 
-    bool isEmpty(int y, int x) const {
-        return (get(y, x) == Element<T>().empty());
+    bool isEmpty(const Point2D& p) const {
+        return (get(p) == Element<T>().empty());
     }
 
-    bool withinBounds(int y, int x) const {
-        if (0 <= x && 0 <= y) {
-            if (x < m_width && y < m_height) {
+    bool withinBounds(const Point2D& p) const {
+        if (0 <= p.x && 0 <= p.y) {
+            if (p.x < m_width && p.y < m_height) {
                 return true;
             }
         }
@@ -81,8 +83,8 @@ public:
     }
 
 private:
-    int coord2index(int y, int x) const {
-        return y * m_width + x;
+    int coord2index(const Point2D& p) const {
+        return p.y * m_width + p.x;
     }
 
     int        m_height;

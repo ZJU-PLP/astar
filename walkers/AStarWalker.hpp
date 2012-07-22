@@ -57,13 +57,13 @@ public:
 
         m_toBeVisited.push(std::make_pair(1, startP));
 
-        while (m_visited.isEmpty(endP.y, endP.x)) {
+        while (m_visited.isEmpty(endP)) {
             if (!m_toBeVisited.empty()) {
                 DistancePoint currp = m_toBeVisited.top();
                 m_toBeVisited.pop();
 
-                if (!isVisited(currp.second.y, currp.second.x)) {
-                    m_visited.set(currp.second.y, currp.second.x, currp.first);
+                if (!isVisited(currp.second)) {
+                    m_visited.set(currp.second, currp.first);
 
                     walkStepsTowardsEnd(currp, endP);
 
@@ -80,7 +80,7 @@ public:
         if (reconstructPath(startP, endP, outReconVec)) {
             for (int y = 0; y < m_visited.getHeight(); ++y) {
                 for (int x = 0; x < m_visited.getWidth(); ++x) {
-                    if (!m_visited.isEmpty(y, x)) {
+                    if (!m_visited.isEmpty(Point2D(y, x))) {
                         ++numVisited;
                     }
                 }
@@ -99,10 +99,10 @@ public:
             for (int x = 0; x < m_matrix.getWidth(); ++x) {
                 if (std::find(reconVec.begin(), reconVec.end(), Point2D(y, x)) != reconVec.end()) {
                     std::cout << "@";
-                } else if (!isWalkable(y, x)) {
+                } else if (!isWalkable(Point2D(y, x))) {
                     std::cout << "+";
-                } else if (isVisited(y, x)) {
-                    std::cout << (char)('A' + (m_visited.get(y, x) % NUM_ALPHAS));
+                } else if (isVisited(Point2D(y, x))) {
+                    std::cout << (char)('A' + (m_visited.get(Point2D(y, x)) % NUM_ALPHAS));
                 } else {
                     std::cout << "_";
                 }
@@ -118,7 +118,7 @@ private:
 
     bool reconstructPath(const Point2D& startP, const Point2D& endP, std::vector<Point2D>& outResult) {
         Point2D currPoint(endP);
-        int     currValue = m_visited.get(endP.y, endP.x);
+        int     currValue = m_visited.get(endP);
 
         outResult.push_back(currPoint);
 
@@ -170,7 +170,7 @@ private:
                 Point2D neigh1(a.y, c.x);
                 Point2D neigh2(c.y, a.x);
 
-                if (isWalkable(neigh1.y, neigh1.x) && isWalkable(neigh2.y, neigh2.x)) {
+                if (isWalkable(neigh1) && isWalkable(neigh2)) {
                     resultPath.erase(resultPath.begin() + i + 1);
                 }
             }
@@ -178,8 +178,8 @@ private:
     }
 
     bool checkIfValueIsLower(const Point2D& newPoint, Point2D& currPoint, int& currValue, std::vector<Point2D>& outResult) {
-        if (!m_visited.isEmpty(newPoint.y, newPoint.x) && isWalkable(newPoint.y, newPoint.x)) {
-            int newValue = m_visited.get(newPoint.y, newPoint.x);
+        if (!m_visited.isEmpty(newPoint) && isWalkable(newPoint)) {
+            int newValue = m_visited.get(newPoint);
 
             if (newValue < currValue) {
                 currValue = newValue;
@@ -199,7 +199,7 @@ private:
         DistancePoint newp(curr);
 
         while (walkOneStepTowardsEnd(newp, endP, newp)) {
-            m_visited.set(newp.second.y, newp.second.x, newp.first);
+            m_visited.set(newp.second, newp.first);
 
             addNeighboursIfUnvisited(newp);
         }
@@ -246,11 +246,11 @@ private:
     }
 
     bool isWalkableAndNotVisited(const Point2D& p) {
-        return isWalkable(p.y, p.x) && !isVisited(p.y, p.x);
+        return isWalkable(Point2D(p.y, p.x)) && !isVisited(Point2D(p.y, p.x));
     }
 
     void addNeighboursIfUnvisited(const DistancePoint& currdp) {
-        if (!isWalkable(currdp.second.y, currdp.second.x)) {
+        if (!isWalkable(currdp.second)) {
             return;
         }
 
@@ -271,19 +271,19 @@ private:
     }
 
     void addIfUnvisited(const Point2D& p, int distance) {
-        if (!isVisited(p.y, p.x)) {
-            if (isWalkable(p.y, p.x)) {
+        if (!isVisited(Point2D(p.y, p.x))) {
+            if (isWalkable(Point2D(p.y, p.x))) {
                 m_toBeVisited.push(std::make_pair(distance, p));
             }
         }
     }
 
-    bool isWalkable(int y, int x) const {
-        return m_matrix.isEmpty(y, x);
+    bool isWalkable(const Point2D& p) const {
+        return m_matrix.isEmpty(p);
     }
 
-    bool isVisited(int y, int x) {
-        return !m_visited.isEmpty(y, x);
+    bool isVisited(const Point2D& p) {
+        return !m_visited.isEmpty(p);
     }
 
     const Matrix2D<T>& m_matrix;

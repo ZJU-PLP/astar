@@ -35,30 +35,30 @@ TEST(matrixtest, set_and_get) {
 
     ASSERT_EQ(
         TileType_NONE,
-        matrix.get(3,2)
+        matrix.get(Point2D(3,2))
     );
 
-    matrix.set(3, 2, TileType_SOLID);
+    matrix.set(Point2D(3, 2), TileType_SOLID);
 
     ASSERT_EQ(
         TileType_SOLID,
-        matrix.get(3,2)
+        matrix.get(Point2D(3,2))
     );
 
     ASSERT_EQ(
         TileType_OUTSIDE,
-        matrix.get(3, 5)
+        matrix.get(Point2D(3, 5))
     );
 
     ASSERT_EQ(
         TileType_OUTSIDE,
-        matrix.get(-1, -1)
+        matrix.get(Point2D(-1, -1))
     );
 }
 
 TEST(astarwalker, walk_noblock) {
     Matrix2D<TileType> matrix(4, 4);
-    matrix.set(2, 2, TileType_SOLID);
+    matrix.set(Point2D(2, 2), TileType_SOLID);
 
     AStarWalker<TileType> walker(matrix);
 
@@ -82,12 +82,12 @@ TEST(astarwalker, walk_blocker) {
     Matrix2D<TileType> matrix(h, w);
 
     for (int x = 2; x <= w - 4; ++x) {
-        matrix.set(h / 2 - 1, x, TileType_SOLID);
+        matrix.set(Point2D(h / 2 - 1, x), TileType_SOLID);
     }
 
     for (int y = h/2 - 2; y <= h/2 - 1; ++y) {
-        matrix.set(y, 2, TileType_SOLID);
-        matrix.set(y, w - 3, TileType_SOLID);
+        matrix.set(Point2D(y, 2), TileType_SOLID);
+        matrix.set(Point2D(y, w - 3), TileType_SOLID);
     }
 
     AStarWalker<TileType> walker(matrix);
@@ -112,7 +112,7 @@ TEST(astarwalker, walk_blocker_fail) {
     Matrix2D<TileType> matrix(h, w);
 
     for (int x = 0; x <= w - 1; ++x) {
-        matrix.set(h / 2 - 1, x, TileType_SOLID);
+        matrix.set(Point2D(h / 2 - 1, x), TileType_SOLID);
     }
 
     AStarWalker<TileType> walker(matrix);
@@ -128,14 +128,14 @@ TEST(astarwalker, walk_maze) {
     const size_t h = w;
 
     Matrix2D<TileType> matrix(h, w);
-    matrix.set(1, 0, TileType_SOLID);
-    matrix.set(1, 1, TileType_SOLID);
-    matrix.set(1, 2, TileType_SOLID);
-    matrix.set(1, 4, TileType_SOLID);
-    matrix.set(1, 5, TileType_SOLID);
+    matrix.set(Point2D(1, 0), TileType_SOLID);
+    matrix.set(Point2D(1, 1), TileType_SOLID);
+    matrix.set(Point2D(1, 2), TileType_SOLID);
+    matrix.set(Point2D(1, 4), TileType_SOLID);
+    matrix.set(Point2D(1, 5), TileType_SOLID);
 
     for (int i = 1; i < w; ++i)
-    matrix.set(3, i, TileType_SOLID);
+        matrix.set(Point2D(3, i), TileType_SOLID);
 
     AStarWalker<TileType> walker(matrix);
 
