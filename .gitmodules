@@ -1,3 +1,4 @@
 [submodule "contrib/rtest"]
 	path = contrib/rtest
-	url = git@github.com:krumberg/rtest.git
+	url = git://github.com/krumberg/rtest.git
+
