@@ -31,32 +31,6 @@
 
 #define PRINT_WALK
 
-TEST(matrixtest, set_and_get) {
-    Matrix2D<TileType> matrix(4, 5);
-
-    ASSERT_EQ(
-        TileType_NONE,
-        matrix.get(Point2D(3,2))
-    );
-
-    matrix.set(Point2D(3, 2), TileType_FOREST);
-
-    ASSERT_EQ(
-        TileType_FOREST,
-        matrix.get(Point2D(3,2))
-    );
-
-    ASSERT_EQ(
-        TileType_OUTSIDE,
-        matrix.get(Point2D(3, 5))
-    );
-
-    ASSERT_EQ(
-        TileType_OUTSIDE,
-        matrix.get(Point2D(-1, -1))
-    );
-}
-
 TEST(astarwalker, walk_noblock) {
     Matrix2D<TileType> matrix(4, 4);
     matrix.set(Point2D(2, 2), TileType_FOREST);
@@ -151,30 +125,4 @@ TEST(astarwalker, walk_maze) {
     #ifdef PRINT_WALK
     walker.printDistances(reconVec);
     #endif
-}
-
-TEST(tilereader, load_small) {
-    boost::filesystem::path path("tests/data/matrix_small");
-    ASSERT_TRUE(boost::filesystem::exists(path));
-
-    Matrix2D<TileType> matrix;
-    TileReader<TileType> reader;
-
-    ASSERT_TRUE(reader.load(path, matrix));
-
-    ASSERT_EQ(3, matrix.getWidth());
-    ASSERT_EQ(2, matrix.getHeight());
-
-    ASSERT_EQ(TileType_FOREST, matrix.get(Point2D(0, 0)));
-    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(0, 1)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(0, 2)));
-
-    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(1, 0)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 1)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 2)));
-}
-
-int main() {
-    RTest::runAllTests();
-    return 0;
 }
