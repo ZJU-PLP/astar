@@ -60,7 +60,7 @@ private:
 	SDL_WM_SetCaption("Best Game Ever", "Best Game Ever");
 
 	/* create window */
-	SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+	SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
      }
 
     virtual void initResources(SDL_Surface* screen) = 0;
@@ -79,7 +79,7 @@ private:
 	    refresh(screen);
 
 	    /* update the screen */
-	    SDL_UpdateRect(screen, 0, 0, 0, 0);
+	    SDL_Flip(screen);
 
             ++ndraws;
 	}

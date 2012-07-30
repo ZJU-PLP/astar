@@ -32,7 +32,7 @@
 
 using namespace Game;
 
-const int BACK_SCROLL = 8;
+const int BACK_SCROLL = 32;
 
 class Application : public SdlApplication {
 public:

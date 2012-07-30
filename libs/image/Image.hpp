@@ -37,15 +37,17 @@ public:
 	SDL_Surface* origImage = IMG_Load(path.c_str());
 
 	if (origImage != NULL) {
-	    m_surface = SDL_DisplayFormat(origImage);
+	    m_surface = SDL_DisplayFormatAlpha(origImage);
 	    SDL_FreeSurface(origImage);
 
 	    if (m_surface == NULL) {
 		throw Exception("Unable to convert " + path + " to display format");
 	    }
 
-            Uint32 key = SDL_MapRGB(m_surface->format, 255, 0, 255);
-            SDL_SetColorKey(m_surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, key);
+            //Uint32 key = SDL_MapRGB(m_surface->format, 255, 0, 255);
+            //SDL_SetColorKey(m_surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, key);
+
+            SDL_SetAlpha(m_surface, SDL_SRCALPHA | SDL_RLEACCEL, 0);
 	} else {
 	    throw Exception("Unable to load image " + path);
 	}
