@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include <common/ResourceFinder.hpp>
+
 #include "Image.hpp"
 
 namespace Game {
@@ -43,7 +45,7 @@ private:
     }
 
     Image& loadImage(const std::string& fileName) {
-        const std::string path("../media/" + fileName);
+        const std::string path(ResourceFinder::findResource(fileName));
 
 	m_imageMap[fileName] = new Image(path);
 

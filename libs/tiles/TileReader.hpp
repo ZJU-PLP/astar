@@ -27,6 +27,7 @@
 #include <boost/scoped_ptr.hpp>
 
 #include <common/Dim2D.hpp>
+#include <common/ResourceFinder.hpp>
 
 #include <matrix/Matrix2D.hpp>
 
@@ -36,12 +37,12 @@ public:
     TileReader() {
     }
 
-    bool load(const boost::filesystem::path& filename, Matrix2D<T>& outMatrix) {
-        std::cout << "load" << std::endl;
+    bool load(const std::string& filename, Matrix2D<T>& outMatrix) {
+        const std::string path(ResourceFinder::findResource(filename));
 
         bool result = false;
 
-        boost::filesystem::fstream stream(filename);
+        boost::filesystem::fstream stream(path);
 
         if (stream) {
             Dim2D dim;

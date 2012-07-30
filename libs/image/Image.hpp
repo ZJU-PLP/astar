@@ -3,8 +3,8 @@
 
 #include <SDL_image.h>
 
-#include "Exception.hpp"
-#include "Log.hpp"
+#include <common/Exception.hpp>
+#include <common/Log.hpp>
 
 namespace Game {
 

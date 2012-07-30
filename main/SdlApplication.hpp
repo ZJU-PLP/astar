@@ -3,8 +3,8 @@
 
 #include <SDL.h>
 
-#include "Exception.hpp"
-#include "Log.hpp"
+#include <common/Exception.hpp>
+#include <common/Log.hpp>
 
 namespace {
     const int SCREEN_WIDTH  = 800;

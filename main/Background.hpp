@@ -7,7 +7,7 @@
 
 #include <tiles/TileType.hpp>
 
-#include "Image.hpp"
+#include <image/Image.hpp>
 
 namespace {
     const std::string FOREST_TILE_PATH("forest.png");

@@ -1,7 +1,5 @@
-#ifndef GAME_EXCEPTION_HPP
-#define GAME_EXCEPTION_HPP
-
-namespace Game {
+#ifndef COMMON_EXCEPTION_HPP
+#define COMMON_EXCEPTION_HPP
 
 class Exception {
 public:
@@ -18,6 +16,4 @@ private:
     std::string m_msg;
 };
 
-} // Game
-
-#endif // GAME_EXCEPTION_HPP
+#endif // COMMON_EXCEPTION_HPP

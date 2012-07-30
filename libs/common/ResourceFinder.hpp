@@ -18,32 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#define RTEST_SKIP_PREFIX
+#ifndef COMMON_RESOURCEFINDER_HPP
+#define COMMON_RESOURCEFINDER_HPP
 
-#include <rtest/rtest.hpp>
+#include <string>
 
-#include <tiles/TileType.hpp>
-#include <tiles/TileReader.hpp>
+#include <common/Exception.hpp>
 
-#include <matrix/Matrix2D.hpp>
+#include <boost/filesystem.hpp>
 
-TEST(tilereader, load_small) {
-    std::string path("tests/data/matrix_small");
-    ASSERT_TRUE(boost::filesystem::exists(path));
+class ResourceFinder {
+public:
+    static std::string findResource(const std::string& filename) {
+        if (boost::filesystem::exists(filename)) {
+            return filename;
+        } else {
+            const std::string path("media/" + filename);
 
-    Matrix2D<TileType> matrix;
-    TileReader<TileType> reader;
+            if (boost::filesystem::exists(path)) {
+                return path;
+            }
+        }
 
-    ASSERT_TRUE(reader.load(path, matrix));
+        throw Exception("Resource " + filename + " does not exist");
+    }
+};
 
-    ASSERT_EQ(3, matrix.getWidth());
-    ASSERT_EQ(2, matrix.getHeight());
-
-    ASSERT_EQ(TileType_FOREST, matrix.get(Point2D(0, 0)));
-    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(0, 1)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(0, 2)));
-
-    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(1, 0)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 1)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 2)));
-}
+#endif /* COMMON_RESOURCEFINDER_HPP */

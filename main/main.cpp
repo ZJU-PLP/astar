@@ -1,12 +1,32 @@
+// Copyright (C) 2012 by Kristian Rumberg <kristianrumberg@gmail.com>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 #include <string>
 #include <iostream>
 #include <cmath>
 
+#include <image/ImageLoader.hpp>
+
 #include <tiles/TileReader.hpp>
 
 #include "SdlApplication.hpp"
-
-#include "ImageLoader.hpp"
 
 #include "Background.hpp"
 
@@ -26,7 +46,7 @@ public:
     void initResources(SDL_Surface* screen) {
         TileReader<TileType> reader;
 
-        if (reader.load(boost::filesystem::path("matrix_small"), m_matrix)) {
+        if (reader.load("matrix_big", m_matrix)) {
             m_background = new Background(m_imageLoader, &m_matrix);
         } else {
             throw Exception("Failed to read tilemap");
