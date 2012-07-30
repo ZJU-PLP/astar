@@ -1,1 +1,1 @@
-# A simple a-star implementation
+A small and very simplistic RTS-game

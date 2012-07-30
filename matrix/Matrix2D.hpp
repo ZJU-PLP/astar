@@ -23,6 +23,8 @@
 
 #include <common/Point2D.hpp>
 
+#include <matrix/Element.hpp>
+
 template <typename T>
 class Matrix2D {
 public:
