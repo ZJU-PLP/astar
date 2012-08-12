@@ -21,6 +21,8 @@
 #ifndef GAME_LOG_HPP
 #define GAME_LOG_HPP
 
+#include <iostream>
+
 namespace Game {
 
 class Log {

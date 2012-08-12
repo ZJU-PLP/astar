@@ -10,6 +10,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${SDL_INCLUDE_DIRS})
 
 add_executable(main
+	Background.cpp
 	main.cpp
 )
 

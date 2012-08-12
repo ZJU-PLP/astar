@@ -21,6 +21,7 @@
 #ifndef MATRIX_MATRIX2D_HPP
 #define MATRIX_MATRIX2D_HPP
 
+#include <common/Dim2D.hpp>
 #include <common/Point2D.hpp>
 
 #include <matrix/Element.hpp>
