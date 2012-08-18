@@ -59,8 +59,6 @@ void Background::blit(SDL_Surface* destSurface) {
     const int screenWidth  = destSurface->w;
     const int screenHeight = destSurface->h;
 
-    Image* image = NULL;
-
     for (int i = 0; i < m_matrixPointer->getHeight(); ++i) {
         for (int j = 0; j < m_matrixPointer->getWidth(); ++j) {
             TileType type = m_matrixPointer->get(Point2D(i, j));
@@ -72,7 +70,7 @@ void Background::blit(SDL_Surface* destSurface) {
                 throw Exception(ss.str());
             }
 
-            image = m_tileMap[type];
+            Image* image = m_tileMap[type];
 
             int y = m_offsety + ( m_h / 4) * i + (m_h / 4) * j;
             int x = m_offsetx + (-m_w / 2) * i + (m_w / 2) * j;
