@@ -14,4 +14,4 @@ add_executable(main
 	main.cpp
 )
 
-target_link_libraries(main ${SDL_LIBRARIES} ${SDLIMAGE_LIBRARIES} boost_filesystem boost_system)
+target_link_libraries(main ${SDL_LIBRARIES} sdl_image boost_filesystem boost_system)
