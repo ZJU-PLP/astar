@@ -21,37 +21,181 @@
 #ifndef MATRIX_TILETYPE_HPP
 #define MATRIX_TILETYPE_HPP
 
+#include <stdint.h>
+
 #include <matrix/Element.hpp>
 
-enum TileType {
-    TileType_OUTSIDE = -1,
-    TileType_NONE,
-    TileType_GRASS,
-    TileType_FOREST,
-    TileType_WATER
+enum TileEnum {
+    TileEnum_OUTSIDE = -1,
+    TileEnum_NONE,
+    TileEnum_GRASS,
+    TileEnum_FOREST,
+    TileEnum_WATER
+};
+
+enum PartEnum {
+    PartEnum_NONE         = 0,
+    PartEnum_TOP_RIGHT    = (1 << 0),
+    PartEnum_RIGHT        = (1 << 1),
+    PartEnum_BOTTOM_RIGHT = (1 << 2),
+    PartEnum_BOTTOM       = (1 << 3),
+    PartEnum_BOTTOM_LEFT  = (1 << 4),
+    PartEnum_LEFT         = (1 << 5),
+    PartEnum_TOP_LEFT     = (1 << 6),
+    PartEnum_TOP          = (1 << 7),
+    PartEnum_ALL          = 0xff
+};
+
+struct Tile_s {
+    Tile_s() :
+        tile(TileEnum_NONE),
+        part(PartEnum_NONE)
+    {
+    }
+
+    Tile_s(TileEnum tile) :
+        tile(tile),
+        part(PartEnum_ALL)
+    {
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Tile_s& tile) {
+        os << "tile=" << tile.tile << " part=" << tile.part;
+        return os;
+    }
+
+    bool operator==(const Tile_s& other) const {
+        if (tile == other.tile) {
+            if (part == other.part) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool operator!=(const Tile_s& other) const {
+        return !(other == *this);
+    }
+
+    bool operator<(const Tile_s& other) const {
+        if (tile == other.tile) {
+            return part < other.part;
+        } else {
+            return tile < other.tile;
+        }
+    }
+
+    uint8_t tile;
+    uint8_t part;
+};
+
+struct TileAndOverlay_s {
+    TileAndOverlay_s() :
+        primary(),
+        overlay()
+    {
+    }
+    TileAndOverlay_s(TileEnum primaryTile) :
+        primary(primaryTile),
+        overlay()
+    {
+    }
+
+    bool operator<(const TileAndOverlay_s& other) const {
+        if (primary == other.primary) {
+            return overlay < other.overlay;
+        } else {
+            return primary < other.primary;
+        }
+    }
+
+    bool operator==(const TileAndOverlay_s& other) const {
+        if (primary == other.primary) {
+            return overlay == other.overlay;
+        }
+
+        return false;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const TileAndOverlay_s& tileAndOverlay) {
+        os << "primary=" << tileAndOverlay.primary << " overlay=" << tileAndOverlay.overlay;
+        return os;
+    }
+
+    Tile_s primary;
+    Tile_s overlay;
 };
 
 template <>
-class Element<TileType> {
+class Element<TileEnum> {
 public:
-    TileType empty() {
-        return TileType_NONE;
+    TileEnum  empty() {
+        return TileEnum_NONE;
     }
 
-    TileType outsider() {
-        return TileType_OUTSIDE;
+    TileEnum  outsider() {
+        return TileEnum_OUTSIDE;
     }
 
-    TileType grass() {
-        return TileType_GRASS;
+    TileEnum  grass() {
+        return TileEnum_GRASS;
     }
 
-    TileType forest() {
-        return TileType_FOREST;
+    TileEnum  forest() {
+        return TileEnum_FOREST;
     }
 
-    TileType water() {
-        return TileType_WATER;
+    TileEnum  water() {
+        return TileEnum_WATER;
+    }
+};
+
+template <>
+class Element<Tile_s> {
+public:
+    Tile_s  empty() {
+        return TileEnum_NONE;
+    }
+
+    Tile_s  outsider() {
+        return TileEnum_OUTSIDE;
+    }
+
+    Tile_s  grass() {
+        return TileEnum_GRASS;
+    }
+
+    Tile_s  forest() {
+        return TileEnum_FOREST;
+    }
+
+    Tile_s  water() {
+        return TileEnum_WATER;
+    }
+};
+
+template <>
+class Element<TileAndOverlay_s> {
+public:
+    TileAndOverlay_s empty() {
+        return TileEnum_NONE;
+    }
+
+    TileAndOverlay_s outsider() {
+        return TileEnum_OUTSIDE;
+    }
+
+    TileAndOverlay_s grass() {
+        return TileEnum_GRASS;
+    }
+
+    TileAndOverlay_s forest() {
+        return TileEnum_FOREST;
+    }
+
+    TileAndOverlay_s water() {
+        return TileEnum_WATER;
     }
 };
 

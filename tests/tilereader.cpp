@@ -31,19 +31,19 @@ TEST(tilereader, load_small) {
     std::string path("tests/data/matrix_small");
     ASSERT_TRUE(boost::filesystem::exists(path));
 
-    Matrix2D<TileType> matrix;
-    TileReader<TileType> reader;
+    Matrix2D<Tile_s> matrix;
+    TileReader<Tile_s> reader;
 
     ASSERT_TRUE(reader.load(path, matrix));
 
     ASSERT_EQ(3, matrix.getWidth());
     ASSERT_EQ(2, matrix.getHeight());
 
-    ASSERT_EQ(TileType_FOREST, matrix.get(Point2D(0, 0)));
-    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(0, 1)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(0, 2)));
+    ASSERT_EQ(Tile_s(TileEnum_FOREST), matrix.get(Point2D(0, 0)));
+    ASSERT_EQ(Tile_s(TileEnum_GRASS),  matrix.get(Point2D(0, 1)));
+    ASSERT_EQ(Tile_s(TileEnum_WATER),  matrix.get(Point2D(0, 2)));
 
-    ASSERT_EQ(TileType_GRASS,  matrix.get(Point2D(1, 0)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 1)));
-    ASSERT_EQ(TileType_WATER,  matrix.get(Point2D(1, 2)));
+    ASSERT_EQ(Tile_s(TileEnum_GRASS),  matrix.get(Point2D(1, 0)));
+    ASSERT_EQ(Tile_s(TileEnum_WATER),  matrix.get(Point2D(1, 1)));
+    ASSERT_EQ(Tile_s(TileEnum_WATER),  matrix.get(Point2D(1, 2)));
 }

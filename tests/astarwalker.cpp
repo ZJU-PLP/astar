@@ -32,10 +32,10 @@
 #define PRINT_WALK
 
 TEST(astarwalker, walk_noblock) {
-    Matrix2D<TileType> matrix(4, 4);
-    matrix.set(Point2D(2, 2), TileType_FOREST);
+    Matrix2D<Tile_s> matrix(4, 4);
+    matrix.set(Point2D(2, 2), Tile_s(TileEnum_FOREST));
 
-    AStarWalker<TileType> walker(matrix);
+    AStarWalker<Tile_s> walker(matrix);
 
     std::vector<Point2D> reconVec;
     int numVisited = 0;
@@ -54,18 +54,18 @@ TEST(astarwalker, walk_blocker) {
     const size_t w = 20;
     const size_t h = w;
 
-    Matrix2D<TileType> matrix(h, w);
+    Matrix2D<Tile_s> matrix(h, w);
 
     for (int x = 2; x <= w - 4; ++x) {
-        matrix.set(Point2D(h / 2 - 1, x), TileType_FOREST);
+        matrix.set(Point2D(h / 2 - 1, x), TileEnum_FOREST);
     }
 
     for (int y = h/2 - 2; y <= h/2 - 1; ++y) {
-        matrix.set(Point2D(y, 2), TileType_FOREST);
-        matrix.set(Point2D(y, w - 3), TileType_FOREST);
+        matrix.set(Point2D(y, 2), TileEnum_FOREST);
+        matrix.set(Point2D(y, w - 3), TileEnum_FOREST);
     }
 
-    AStarWalker<TileType> walker(matrix);
+    AStarWalker<Tile_s> walker(matrix);
 
     std::vector<Point2D> reconVec;
     int numVisited = 0;
@@ -84,13 +84,13 @@ TEST(astarwalker, walk_blocker_fail) {
     const size_t w = 20;
     const size_t h = w;
 
-    Matrix2D<TileType> matrix(h, w);
+    Matrix2D<Tile_s> matrix(h, w);
 
     for (int x = 0; x <= w - 1; ++x) {
-        matrix.set(Point2D(h / 2 - 1, x), TileType_FOREST);
+        matrix.set(Point2D(h / 2 - 1, x), TileEnum_FOREST);
     }
 
-    AStarWalker<TileType> walker(matrix);
+    AStarWalker<Tile_s> walker(matrix);
 
     std::vector<Point2D> reconVec;
     int numVisited = 0;
@@ -102,17 +102,17 @@ TEST(astarwalker, walk_maze) {
     const size_t w = 6;
     const size_t h = w;
 
-    Matrix2D<TileType> matrix(h, w);
-    matrix.set(Point2D(1, 0), TileType_FOREST);
-    matrix.set(Point2D(1, 1), TileType_FOREST);
-    matrix.set(Point2D(1, 2), TileType_FOREST);
-    matrix.set(Point2D(1, 4), TileType_FOREST);
-    matrix.set(Point2D(1, 5), TileType_FOREST);
+    Matrix2D<Tile_s> matrix(h, w);
+    matrix.set(Point2D(1, 0), TileEnum_FOREST);
+    matrix.set(Point2D(1, 1), TileEnum_FOREST);
+    matrix.set(Point2D(1, 2), TileEnum_FOREST);
+    matrix.set(Point2D(1, 4), TileEnum_FOREST);
+    matrix.set(Point2D(1, 5), TileEnum_FOREST);
 
     for (int i = 1; i < w; ++i)
-        matrix.set(Point2D(3, i), TileType_FOREST);
+        matrix.set(Point2D(3, i), TileEnum_FOREST);
 
-    AStarWalker<TileType> walker(matrix);
+    AStarWalker<Tile_s> walker(matrix);
 
     std::vector<Point2D> reconVec;
     int numVisited = 0;

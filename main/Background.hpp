@@ -35,7 +35,7 @@ namespace Game {
 
 class Background {
 public:
-    Background(ImageLoader& loader, Matrix2D<TileType>* matrixPointer);
+    Background(ImageLoader& loader, Matrix2D<TileAndOverlay_s>* matrixPointer);
 
     void scrollX(int delta);
 
@@ -46,8 +46,8 @@ public:
     Point2D screenCoordsToMatrixIndex(const Point2D& screenPoint);
 
 private:
-    Matrix2D<TileType>*        m_matrixPointer;
-    std::map<TileType, Image*> m_tileMap; /* Don't free images, they are owned by ImageLoader */
+    Matrix2D<TileAndOverlay_s>*        m_matrixPointer;
+    std::map<Tile_s, Image*> m_tileMap; /* Don't free images, they are owned by ImageLoader */
     int                        m_offsetx;
     int                        m_offsety;
     int                        m_h;

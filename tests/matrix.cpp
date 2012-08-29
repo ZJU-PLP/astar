@@ -30,27 +30,27 @@
 #include <walkers/AStarWalker.hpp>
 
 TEST(matrixtest, set_and_get) {
-    Matrix2D<TileType> matrix(4, 5);
+    Matrix2D<TileEnum> matrix(4, 5);
 
     ASSERT_EQ(
-        TileType_NONE,
+        TileEnum_NONE,
         matrix.get(Point2D(3,2))
     );
 
-    matrix.set(Point2D(3, 2), TileType_FOREST);
+    matrix.set(Point2D(3, 2), TileEnum_FOREST);
 
     ASSERT_EQ(
-        TileType_FOREST,
+        TileEnum_FOREST,
         matrix.get(Point2D(3,2))
     );
 
     ASSERT_EQ(
-        TileType_OUTSIDE,
+        TileEnum_OUTSIDE,
         matrix.get(Point2D(3, 5))
     );
 
     ASSERT_EQ(
-        TileType_OUTSIDE,
+        TileEnum_OUTSIDE,
         matrix.get(Point2D(-1, -1))
     );
 }

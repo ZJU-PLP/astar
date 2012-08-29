@@ -44,7 +44,7 @@ public:
     }
 
     void initResources(SDL_Surface* screen) {
-        TileReader<TileType> reader;
+        TileReader<TileAndOverlay_s> reader;
 
         if (reader.load("matrix_big", m_matrix)) {
             m_background = new Background(m_imageLoader, &m_matrix);
@@ -87,7 +87,7 @@ public:
     }
 
 private:
-    Matrix2D<TileType> m_matrix;
+    Matrix2D<TileAndOverlay_s>   m_matrix;
     Background*        m_background;
     ImageLoader        m_imageLoader;
 };

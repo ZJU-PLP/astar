@@ -28,7 +28,7 @@ namespace {
 
 namespace Game {
 
-Background::Background(ImageLoader& loader, Matrix2D<TileType>* matrixPointer) :
+Background::Background(ImageLoader& loader, Matrix2D<TileAndOverlay_s>* matrixPointer) :
     m_matrixPointer(matrixPointer),
     m_tileMap(),
     m_offsetx(0),
@@ -36,9 +36,9 @@ Background::Background(ImageLoader& loader, Matrix2D<TileType>* matrixPointer) :
     m_h(0),
     m_w(0)
 {
-    m_tileMap[TileType_FOREST] = &loader.getImage(FOREST_TILE_PATH);
-    m_tileMap[TileType_GRASS]  = &loader.getImage(GRASS_TILE_PATH);
-    m_tileMap[TileType_WATER]  = &loader.getImage(WATER_TILE_PATH);
+    m_tileMap[TileEnum_FOREST] = &loader.getImage(FOREST_TILE_PATH);
+    m_tileMap[TileEnum_GRASS]  = &loader.getImage(GRASS_TILE_PATH);
+    m_tileMap[TileEnum_WATER]  = &loader.getImage(WATER_TILE_PATH);
 
     /* Pick the width and height of the first tile, assume they are all equally sized */
     m_h = m_tileMap.begin()->second->getHeight();
@@ -61,22 +61,29 @@ void Background::blit(SDL_Surface* destSurface) {
 
     for (int i = 0; i < m_matrixPointer->getHeight(); ++i) {
         for (int j = 0; j < m_matrixPointer->getWidth(); ++j) {
-            TileType type = m_matrixPointer->get(Point2D(i, j));
+            TileAndOverlay_s type = m_matrixPointer->get(Point2D(i, j));
 
-            if (m_tileMap.find(type) == m_tileMap.end()) {
+            if (m_tileMap.find(type.primary) == m_tileMap.end()) {
                 std::stringstream ss;
-                ss << "Failed to load TileType at i=" << i << " j=" << j << " with enum value " << type;
+                ss << "Failed to load TileAndOverlay_s at i=" << i << " j=" << j << " with enum value " << type;
 
                 throw Exception(ss.str());
             }
 
-            Image* image = m_tileMap[type];
-
             int y = m_offsety + ( m_h / 4) * i + (m_h / 4) * j;
             int x = m_offsetx + (-m_w / 2) * i + (m_w / 2) * j;
 
-            SDL_Rect box = {x, y, image->getWidth(), image->getHeight()};
-            SDL_BlitSurface(image->getSdlSurface(), NULL, destSurface, &box);
+            Image* primaryImage = m_tileMap[type.primary];
+
+            SDL_Rect primaryBox = {x, y, primaryImage->getWidth(), primaryImage->getHeight()};
+            SDL_BlitSurface(primaryImage->getSdlSurface(), NULL, destSurface, &primaryBox);
+
+            if (m_tileMap.find(type.overlay) != m_tileMap.end()) {
+                Image* overlayImage = m_tileMap[type.overlay];
+
+                SDL_Rect overlayBox = {x, y, overlayImage->getWidth(), overlayImage->getHeight()};
+                SDL_BlitSurface(overlayImage->getSdlSurface(), NULL, destSurface, &overlayBox);
+            }
         }
     }
 }
