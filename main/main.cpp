@@ -24,7 +24,7 @@
 
 #include <image/ImageLoader.hpp>
 
-#include <tiles/TileReader.hpp>
+#include <tiles/MapReader.hpp>
 
 #include "SdlApplication.hpp"
 
@@ -44,7 +44,7 @@ public:
     }
 
     void initResources(SDL_Surface* screen) {
-        TileReader<TileAndOverlay_s> reader;
+        MapReader<TileAndOverlay_s> reader;
 
         if (reader.load("matrix_big", m_matrix)) {
             m_background = new Background(m_imageLoader, &m_matrix);

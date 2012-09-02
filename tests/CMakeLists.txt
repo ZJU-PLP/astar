@@ -8,7 +8,7 @@ add_executable(
     astarwalker.cpp
     main.cpp
     matrix.cpp
-    tilereader.cpp
+    MapReaderTest.cpp
 )
 
 target_link_libraries(tests rtest boost_filesystem boost_system)

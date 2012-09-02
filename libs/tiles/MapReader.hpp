@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef MATRIX_TILEREADER_HPP
-#define MATRIX_TILEREADER_HPP
+#ifndef MATRIX_MAPREADER_HPP
+#define MATRIX_MAPREADER_HPP
 
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -32,9 +32,9 @@
 #include <matrix/Matrix2D.hpp>
 
 template <typename T>
-class TileReader {
+class MapReader {
 public:
-    TileReader() {
+    MapReader() {
     }
 
     bool load(const std::string& filename, Matrix2D<T>& outMatrix) {
@@ -136,4 +136,4 @@ public:
 
 };
 
-#endif /* MATRIX_TILEREADER_HPP */
+#endif /* MATRIX_MAPREADER_HPP */

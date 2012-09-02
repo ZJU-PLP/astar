@@ -23,7 +23,6 @@
 #include <rtest/rtest.hpp>
 
 #include <tiles/TileType.hpp>
-#include <tiles/TileReader.hpp>
 
 #include <matrix/Matrix2D.hpp>
 

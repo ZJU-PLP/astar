@@ -23,16 +23,16 @@
 #include <rtest/rtest.hpp>
 
 #include <tiles/TileType.hpp>
-#include <tiles/TileReader.hpp>
+#include <tiles/MapReader.hpp>
 
 #include <matrix/Matrix2D.hpp>
 
-TEST(tilereader, load_small) {
+TEST(MapReaderTest, load_small) {
     std::string path("tests/data/matrix_small");
     ASSERT_TRUE(boost::filesystem::exists(path));
 
     Matrix2D<Tile_s> matrix;
-    TileReader<Tile_s> reader;
+    MapReader<Tile_s> reader;
 
     ASSERT_TRUE(reader.load(path, matrix));
 
